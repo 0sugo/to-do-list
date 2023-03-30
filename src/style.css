@@ -65,18 +65,21 @@ input[type="checkbox"] {
   color: #999;
   border-color: #999;
 }
-#edit{
-    position: relative;
 
+#edit {
+  position: relative;
 }
-#delete{
-    position: relative;
+
+#delete {
+  position: relative;
 }
-#identifier{
-    display: flex;
-    justify-content: space-between;
+
+#identifier {
+  display: flex;
+  justify-content: space-between;
 }
-form{
-    display: flex;
-    justify-content: center;
+
+form {
+  display: flex;
+  justify-content: center;
 }
