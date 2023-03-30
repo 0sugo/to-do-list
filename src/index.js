@@ -33,27 +33,27 @@ const tasks = [
 
 
 // fetch store && to array
-function attacher(){
-    let completed = false;
-    let newObj = {
-      description: 'kwera',
+// let individualTask = '';
+const myForm = document.getElementById('myform');
+myForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const individualTask = document.getElementById('individualTask').value;
+  if (individualTask.trim() !== '') {
+    const newObj = {
+      description: individualTask,
       completed: false,
       index: index,
-    }
-    let newObj2 = {
-        description: 'kwera',
-        completed: false,
-        index: index,
-      }
-    
+    };
     tasks.push(newObj);
-    tasks.push(newObj2);
-    
 
-    // const adder = document.getElementById('adder');
-    
-}
+    // clear input field
+    document.getElementById('individualTask').value = '';
 
+    renderTaskList();
+    checkAllCompleted();
+  }
+});
 //rendering info to html
 function renderTaskList() {
   const taskList = document.getElementById('task-list');
@@ -82,8 +82,6 @@ function renderTaskList() {
 
     taskList.appendChild(listItem);
   });
-  console.log(tasks);
-  index+=index;
 }
 
 // Check if all tasks are completed to activate button
@@ -94,6 +92,3 @@ function checkAllCompleted() {
 }
 
 
-attacher();
-renderTaskList();
-checkAllCompleted();
