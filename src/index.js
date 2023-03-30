@@ -54,6 +54,11 @@ myForm.addEventListener('submit', (event) => {
     checkAllCompleted();
   }
 });
+
+
+
+
+
 //rendering info to html
 function renderTaskList() {
   const taskList = document.getElementById('task-list');
@@ -62,6 +67,7 @@ function renderTaskList() {
   tasks.forEach((task,index) => {
     task.index = index;
     const listItem = document.createElement('li');
+    listItem.id = 'identifier';
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -79,9 +85,22 @@ function renderTaskList() {
       description.classList.add('completed');
     }
     listItem.appendChild(description);
+    const deleteButton = document.createElement('button');
+    deleteButton.innerText = 'X';
+    deleteButton.addEventListener('click', () => {
+      const index = tasks.findIndex((t) => t.index === task.index);
+      if (index > -1) {
+        tasks.splice(index, 1);
+        renderTaskList();
+        checkAllCompleted();
+      }
+    });
+    listItem.appendChild(deleteButton);
 
     taskList.appendChild(listItem);
   });
+
+
 }
 
 // Check if all tasks are completed to activate button
@@ -90,5 +109,26 @@ function checkAllCompleted() {
   const clearAllButton = document.getElementById('clear-all');
   clearAllButton.disabled = !allCompleted;
 }
+
+  // deleting tasks
+  let identifier = document.getElementById('identifier');
+identifier.addEventListener('clicked', function(){
+    function deleteTasks(){
+        let currentIndex = -1;
+        for (let i = 0; i < tasks.length; i+=1) {
+            const{desiredDescription,desiredCompleted,desiredIndex} = tasks[i];
+            if(desiredDescription===tasks[i].description &&desiredIndex===tasks[i].index){
+                currentIndex = i;
+                break;
+            }
+            
+        }
+        tasks.splice(currentIndex,1);
+        console.log(tasks);
+    
+    }
+    
+
+});
 
 
