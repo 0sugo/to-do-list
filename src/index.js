@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import './style.css';
+import './addRemove.js';
 
 function component() {
   const element = document.createElement('div');
@@ -11,49 +12,29 @@ function component() {
 
 document.body.appendChild(component());
 
-let index = 0;
-const tasks = [];
+const tasks = [
+  {
+    description: 'visit park',
+    completed: false,
+    index: 1,
+  },
+  {
+    description: 'Take a walk',
+    completed: false,
+    index: 2,
+  },
+  {
+    description: 'complete project 1',
+    completed: false,
+    index: 3,
+  },
+];
 
-// fetch information from form
-
-
-// fetch store && to array
-// let individualTask = '';
-const myForm = document.getElementById('myform');
-myForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const individualTask = document.getElementById('individualTask').value;
-  if (individualTask.trim() !== '') {
-    const newObj = {
-      description: individualTask,
-      completed: false,
-      index: index,
-    };
-    tasks.push(newObj);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-
-    // clear input field
-    document.getElementById('individualTask').value = '';
-
-    renderTaskList();
-    checkAllCompleted();
-  }
-});
-
-
-
-
-
-//rendering info to html
 function renderTaskList() {
   const taskList = document.getElementById('task-list');
   taskList.innerHTML = '';
-
-  tasks.forEach((task,index) => {
-    task.index = index;
+  tasks.forEach((task) => {
     const listItem = document.createElement('li');
-    listItem.id = 'identifier';
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -72,89 +53,17 @@ function renderTaskList() {
     }
     listItem.appendChild(description);
 
-    const editButton = document.createElement('button');
-    editButton.innerText = 'Edit';
-    editButton.addEventListener('click', () => {
-      description.style.display = 'none';
-      editInput.style.display = 'inline-block';
-      editInput.focus();
-    });
-    listItem.appendChild(editButton);
-
-    const editInput = document.createElement('input');
-    editInput.type = 'text';
-    editInput.value = task.description;
-    editInput.style.display = 'none';
-    editInput.addEventListener('keyup', (event) => {
-      if (event.key === 'Enter') {
-        const newDescription = editInput.value.trim();
-        if (newDescription !== '') {
-          task.description = newDescription;
-          description.innerText = newDescription;
-          description.style.display = 'inline-block';
-          editInput.style.display = 'none';
-          localStorage.setItem('tasks', JSON.stringify(tasks));
-
-        }
-      }
-    });
-    listItem.appendChild(editInput);
-
-    const deleteButton = document.createElement('button');
-    deleteButton.innerText = 'X';
-    deleteButton.addEventListener('click', () => {
-      const index = tasks.findIndex((t) => t.index === task.index);
-      if (index > -1) {
-        tasks.splice(index, 1);
-        renderTaskList();
-        checkAllCompleted();
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-    });
-    listItem.appendChild(deleteButton);
-
     taskList.appendChild(listItem);
   });
-
-
 }
 
-// Check if all tasks are completed to activate button
 function checkAllCompleted() {
-    const allCompleted = tasks.every((task) => task.completed);
-    const clearAllButton = document.getElementById('clear-all');
-    clearAllButton.disabled = !allCompleted;
-    clearAllButton.addEventListener('click', () => {
-      if (!clearAllButton.disabled) {
-        tasks.length = 0;
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        renderTaskList();
-        checkAllCompleted();
-      }
-    });
-  }
+  const allCompleted = tasks.every((task) => task.completed);
+  const clearAllButton = document.getElementById('clear-all');
+  clearAllButton.disabled = !allCompleted;
+}
 
-// clear all array
-  // deleting tasks
-  let identifier = document.getElementById('identifier');
-identifier.addEventListener('clicked', function(){
-    function deleteTasks(){
-        let currentIndex = -1;
-        for (let i = 0; i < tasks.length; i+=1) {
-            const{desiredDescription,desiredCompleted,desiredIndex} = tasks[i];
-            if(desiredDescription===tasks[i].description &&desiredIndex===tasks[i].index){
-                currentIndex = i;
-                break;
-            }
-            
-        }
-        tasks.splice(currentIndex,1);
-        updateTaskIndexes();
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    
-    }
-    
-
-});
+renderTaskList();
+checkAllCompleted();
 
 
