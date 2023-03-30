@@ -10,6 +10,7 @@ function component() {
 }
 
 document.body.appendChild(component());
+
 let index = 0;
 const tasks = [];
 
@@ -30,6 +31,7 @@ myForm.addEventListener('submit', (event) => {
       index: index,
     };
     tasks.push(newObj);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 
     // clear input field
     document.getElementById('individualTask').value = '';
@@ -91,6 +93,8 @@ function renderTaskList() {
           description.innerText = newDescription;
           description.style.display = 'inline-block';
           editInput.style.display = 'none';
+          localStorage.setItem('tasks', JSON.stringify(tasks));
+
         }
       }
     });
@@ -104,7 +108,8 @@ function renderTaskList() {
         tasks.splice(index, 1);
         renderTaskList();
         checkAllCompleted();
-      }
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
     });
     listItem.appendChild(deleteButton);
 
@@ -135,7 +140,9 @@ identifier.addEventListener('clicked', function(){
             
         }
         tasks.splice(currentIndex,1);
-        updateTaskIndexes();    
+        updateTaskIndexes();
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    
     }
     
 
