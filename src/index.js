@@ -11,23 +11,7 @@ function component() {
 
 document.body.appendChild(component());
 let index = 0;
-const tasks = [
-//   {
-//     description: 'visit park',
-//     completed: false,
-//     index: 1,
-//   },
-//   {
-//     description: 'Take a walk',
-//     completed: false,
-//     index: 2,
-//   },
-//   {
-//     description: 'complete project 1',
-//     completed: false,
-//     index: 3,
-//   },
-];
+const tasks = [];
 
 // fetch information from form
 
@@ -85,6 +69,33 @@ function renderTaskList() {
       description.classList.add('completed');
     }
     listItem.appendChild(description);
+
+    const editButton = document.createElement('button');
+    editButton.innerText = 'Edit';
+    editButton.addEventListener('click', () => {
+      description.style.display = 'none';
+      editInput.style.display = 'inline-block';
+      editInput.focus();
+    });
+    listItem.appendChild(editButton);
+
+    const editInput = document.createElement('input');
+    editInput.type = 'text';
+    editInput.value = task.description;
+    editInput.style.display = 'none';
+    editInput.addEventListener('keyup', (event) => {
+      if (event.key === 'Enter') {
+        const newDescription = editInput.value.trim();
+        if (newDescription !== '') {
+          task.description = newDescription;
+          description.innerText = newDescription;
+          description.style.display = 'inline-block';
+          editInput.style.display = 'none';
+        }
+      }
+    });
+    listItem.appendChild(editInput);
+
     const deleteButton = document.createElement('button');
     deleteButton.innerText = 'X';
     deleteButton.addEventListener('click', () => {
@@ -124,8 +135,7 @@ identifier.addEventListener('clicked', function(){
             
         }
         tasks.splice(currentIndex,1);
-        console.log(tasks);
-    
+        updateTaskIndexes();    
     }
     
 
