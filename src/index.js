@@ -65,5 +65,3 @@ function checkAllCompleted() {
 
 renderTaskList();
 checkAllCompleted();
-
-

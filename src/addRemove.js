@@ -1,6 +1,4 @@
-
 import _ from 'lodash';
-import './addRemove.js';
 import './style.css';
 
 function component() {
@@ -13,46 +11,17 @@ function component() {
 
 document.body.appendChild(component());
 
-let index = 0;
+const index = 0;
 const tasks = [];
 
 // fetch information from form
 
-
-// fetch store && to array
-// let individualTask = '';
-const myForm = document.getElementById('myform');
-myForm.addEventListener('submit', (event) => {
-  event.preventDefault();
-
-  const individualTask = document.getElementById('individualTask').value;
-  if (individualTask.trim() !== '') {
-    const newObj = {
-      description: individualTask,
-      completed: false,
-      index: index,
-    };
-    tasks.push(newObj);
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-
-    // clear input field
-    document.getElementById('individualTask').value = '';
-
-    renderTaskList();
-    checkAllCompleted();
-  }
-});
-
-
-
-
-
-//rendering info to html
+// rendering info to html
 function renderTaskList() {
   const taskList = document.getElementById('task-list');
   taskList.innerHTML = '';
 
-  tasks.forEach((task,index) => {
+  tasks.forEach((task, index) => {
     task.index = index;
     const listItem = document.createElement('li');
     listItem.id = 'identifier';
@@ -77,11 +46,7 @@ function renderTaskList() {
     const editButton = document.createElement('button');
     editButton.innerText = 'Edit';
     editButton.id = 'edit';
-    editButton.addEventListener('click', () => {
-      description.style.display = 'none';
-      editInput.style.display = 'inline-block';
-      editInput.focus();
-    });
+
     listItem.appendChild(editButton);
 
     const editInput = document.createElement('input');
@@ -97,9 +62,13 @@ function renderTaskList() {
           description.style.display = 'inline-block';
           editInput.style.display = 'none';
           localStorage.setItem('tasks', JSON.stringify(tasks));
-
         }
       }
+    });
+    editButton.addEventListener('click', () => {
+      description.style.display = 'none';
+      editInput.style.display = 'inline-block';
+      editInput.focus();
     });
     listItem.appendChild(editInput);
 
@@ -111,52 +80,49 @@ function renderTaskList() {
       if (index > -1) {
         tasks.splice(index, 1);
         renderTaskList();
-        checkAllCompleted();
         localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
+      }
     });
     listItem.appendChild(deleteButton);
 
     taskList.appendChild(listItem);
   });
-
-
 }
+// fetch store && to array
+// let individualTask = '';
+const myForm = document.getElementById('myform');
+myForm.addEventListener('submit', (event) => {
+  event.preventDefault();
 
-// Check if all tasks are completed to activate button
-function checkAllCompleted() {
-    const allCompleted = tasks.every((task) => task.completed);
-    const clearAllButton = document.getElementById('clear-all');
-    clearAllButton.disabled = !allCompleted;
-    clearAllButton.addEventListener('click', () => {
-      if (!clearAllButton.disabled) {
-        tasks.length = 0;
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        renderTaskList();
-        checkAllCompleted();
-      }
-    });
+  const individualTask = document.getElementById('individualTask').value;
+  if (individualTask.trim() !== '') {
+    const newObj = {
+      description: individualTask,
+      completed: false,
+      index,
+    };
+    tasks.push(newObj);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+
+    // clear input field
+    document.getElementById('individualTask').value = '';
+
+    renderTaskList();
   }
+});
 
 // clear all array
-  // deleting tasks
-  let identifier = document.getElementById('identifier');
-identifier.addEventListener('clicked', function(){
-    function deleteTasks(){
-        let currentIndex = -1;
-        for (let i = 0; i < tasks.length; i+=1) {
-            const{desiredDescription,desiredCompleted,desiredIndex} = tasks[i];
-            if(desiredDescription===tasks[i].description &&desiredIndex===tasks[i].index){
-                currentIndex = i;
-                break;
-            }
-            
-        }
-        tasks.splice(currentIndex,1);
-        updateTaskIndexes();
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-    
+// Check if all tasks are completed to activate button
+function checkAllCompleted() {
+  const allCompleted = tasks.every((task) => task.completed);
+  const clearAllButton = document.getElementById('clear-all');
+  clearAllButton.disabled = !allCompleted;
+  clearAllButton.addEventListener('click', () => {
+    if (!clearAllButton.disabled) {
+      tasks.length = 0;
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      renderTaskList();
+      checkAllCompleted();
     }
-    
-
-});
+  });
+}
