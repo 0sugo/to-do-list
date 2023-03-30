@@ -121,11 +121,20 @@ function renderTaskList() {
 
 // Check if all tasks are completed to activate button
 function checkAllCompleted() {
-  const allCompleted = tasks.every((task) => task.completed);
-  const clearAllButton = document.getElementById('clear-all');
-  clearAllButton.disabled = !allCompleted;
-}
+    const allCompleted = tasks.every((task) => task.completed);
+    const clearAllButton = document.getElementById('clear-all');
+    clearAllButton.disabled = !allCompleted;
+    clearAllButton.addEventListener('click', () => {
+      if (!clearAllButton.disabled) {
+        tasks.length = 0;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        renderTaskList();
+        checkAllCompleted();
+      }
+    });
+  }
 
+// clear all array
   // deleting tasks
   let identifier = document.getElementById('identifier');
 identifier.addEventListener('clicked', function(){
