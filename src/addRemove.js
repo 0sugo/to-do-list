@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import './style.css';
+import { updateTaskStatus  }  from './interactive.js';
 
-const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+export const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 const taskList = document.getElementById('task-list');
 
 function component() {
@@ -30,7 +31,7 @@ function checkAllCompleted() {
 }
 
 // render infor to html
-function renderTaskList() {
+export default function renderTaskList() {
   taskList.innerHTML = '';
 
   tasks.forEach((task, index) => {
@@ -42,7 +43,7 @@ function renderTaskList() {
     checkbox.type = 'checkbox';
     checkbox.checked = task.completed;
     checkbox.addEventListener('change', (event) => {
-      task.completed = event.target.checked;
+      updateTaskStatus(task, event.target.checked);
       checkAllCompleted();
       localStorage.setItem('tasks', JSON.stringify(tasks));
     });
@@ -56,7 +57,6 @@ function renderTaskList() {
     listItem.appendChild(description);
 
     const editButton = document.createElement('button');
-    editButton.innerText = 'Edit';
     editButton.id = 'edit';
 
     listItem.appendChild(editButton);
@@ -66,28 +66,79 @@ function renderTaskList() {
     editInput.value = task.description;
     editInput.style.display = 'none';
     editInput.addEventListener('keyup', (event) => {
-      if (event.key === 'Enter') {
-        const newDescription = editInput.value.trim();
-        if (newDescription !== '') {
-          task.description = newDescription;
-          description.innerText = newDescription;
-          description.style.display = 'inline-block';
-          editInput.style.display = 'none';
-          localStorage.setItem('tasks', JSON.stringify(tasks));
-        }
-      }
-    });
-    editButton.addEventListener('click', () => {
-      description.style.display = 'none';
-      editInput.style.display = 'inline-block';
-      editInput.focus();
-    });
-    listItem.appendChild(editInput);
+  if (event.key === 'Enter') {
+    const newDescription = editInput.value.trim();
+    if (newDescription !== '') {
+      task.description = newDescription;
+      description.innerText = newDescription;
+      description.style.display = 'inline-block';
+      editInput.style.display = 'none';
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+  }
+});
 
-    const deleteButton = document.createElement('button');
-    deleteButton.innerText = 'Delete';
-    deleteButton.id = 'delete';
-    deleteButton.addEventListener('click', () => {
+
+listItem.appendChild(editInput);
+
+        // create a new SVG element
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        svg.setAttribute("fill", "none");
+        svg.setAttribute("viewBox", "0 0 24 24");
+        svg.setAttribute("stroke-width", "1.5");
+        svg.setAttribute("stroke", "currentColor");
+        svg.setAttribute("class", "w-6 h-6");
+        svg.setAttribute("width", "18");
+        svg.setAttribute("height", "32");
+
+        // create a new path element
+        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("stroke-linecap", "round");
+        path.setAttribute("stroke-linejoin", "round");
+        path.setAttribute("d", "M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z");
+
+        // add the path element to the SVG element
+        svg.appendChild(path);
+        listItem.appendChild(svg);
+
+        // add event listener to SVG element
+        svg.addEventListener('click', () => {
+          editButton.click();
+        });
+
+        // add event listener to edit button
+        editButton.addEventListener('click', () => {
+          description.style.display = 'none';
+          editInput.style.display = 'inline-block';
+          editInput.focus();
+        });
+
+        const svgDelete = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svgDelete.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+        svgDelete.setAttribute("fill", "none");
+        svgDelete.setAttribute("viewBox", "0 0 24 24");
+        svgDelete.setAttribute("stroke-width", "1.5");
+        svgDelete.setAttribute("stroke", "currentColor");
+        svgDelete.setAttribute("class", "w-6 h-6 svgDelete"); // add a new class name "svgDelete"
+        svgDelete.setAttribute("width", "18");
+        svg.setAttribute("height", "32");
+
+        const pathDelete = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        pathDelete.setAttribute("stroke-linecap", "round");
+        pathDelete.setAttribute("stroke-linejoin", "round");
+        pathDelete.setAttribute("d", "M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0");
+        svgDelete.appendChild(pathDelete);  
+        listItem.appendChild(svgDelete);  
+
+
+
+
+    // const deleteButton = document.createElement('button');
+    // deleteButton.innerText = 'Delete';
+    // deleteButton.id = 'delete';
+
+    svgDelete.addEventListener('click', () => {
       const index = tasks.findIndex((t) => t.index === task.index);
       if (index > -1) {
         tasks.splice(index, 1);
@@ -95,7 +146,7 @@ function renderTaskList() {
         localStorage.setItem('tasks', JSON.stringify(tasks));
       }
     });
-    listItem.appendChild(deleteButton);
+    // listItem.appendChild(deleteButton);
 
     taskList.appendChild(listItem);
   });

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import './style.css';
 import './addRemove.js';
+import 'interactive.js';
 
 function component() {
   const element = document.createElement('div');
