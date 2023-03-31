@@ -65,6 +65,17 @@ export default function renderTaskList() {
     editInput.type = 'text';
     editInput.value = task.description;
     editInput.style.display = 'none';
+    listItem.appendChild(editInput);
+
+
+    listItem.addEventListener('click', (event) => {
+      if (event.target.id === 'edit') {
+        description.style.display = 'none';
+        editInput.style.display = 'inline-block';
+        editInput.focus();
+      }
+    });
+
     editInput.addEventListener('keyup', (event) => {
   if (event.key === 'Enter') {
     const newDescription = editInput.value.trim();
@@ -73,6 +84,7 @@ export default function renderTaskList() {
       description.innerText = newDescription;
       description.style.display = 'inline-block';
       editInput.style.display = 'none';
+      svgDelete.style.display = 'none';
       localStorage.setItem('tasks', JSON.stringify(tasks));
     }
   }
@@ -103,8 +115,9 @@ listItem.appendChild(editInput);
         listItem.appendChild(svg);
 
         // add event listener to SVG element
-        svg.addEventListener('click', () => {
+        description.addEventListener('click', () => {
           editButton.click();
+          svgDelete.style.display = 'block';
         });
 
         // add event listener to edit button
@@ -115,6 +128,7 @@ listItem.appendChild(editInput);
         });
 
         const svgDelete = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svgDelete.style.display = 'none';
         svgDelete.setAttribute("xmlns", "http://www.w3.org/2000/svg");
         svgDelete.setAttribute("fill", "none");
         svgDelete.setAttribute("viewBox", "0 0 24 24");
