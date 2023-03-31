@@ -39,6 +39,36 @@ export default function renderTaskList() {
     const listItem = document.createElement('li');
     listItem.id = 'identifier';
 
+      // add a draggable attribute to the li element
+      listItem.draggable = true;
+
+     // set up the dragstart event listener to store the task index in the dataTransfer object
+     listItem.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('text/plain', index);
+      event.dataTransfer.effectAllowed = 'move';
+    });
+
+    // set up the dragover event listener to allow the li element to be dropped on top of it
+    listItem.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+    });
+
+    // set up the drop event listener to swap the positions of the dragged task and the dropped task
+    listItem.addEventListener('drop', (event) => {
+      event.preventDefault();
+      const sourceIndex = event.dataTransfer.getData('text/plain');
+      if (sourceIndex !== index) {
+        const sourceTask = tasks[sourceIndex];
+        const targetTask = tasks[index];
+        tasks[sourceIndex] = targetTask;
+        tasks[index] = sourceTask;
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        renderTaskList();
+      }
+    });
+
+
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.checked = task.completed;
