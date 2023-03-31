@@ -1,24 +1,36 @@
 import _ from 'lodash';
 import './style.css';
 
+const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+const taskList = document.getElementById('task-list');
+
 function component() {
   const element = document.createElement('div');
 
-  // loadash imported by script
+  // lodash imported by script
   element.innerHTML = _.join(['', ''], ' ');
   return element;
 }
 
 document.body.appendChild(component());
 
-const index = 0;
-const tasks = [];
+// able and disable button
+function checkAllCompleted() {
+  const allCompleted = tasks.every((task) => task.completed);
+  const clearAllButton = document.getElementById('clear-all');
+  clearAllButton.disabled = !allCompleted;
+  clearAllButton.addEventListener('click', () => {
+    if (!clearAllButton.disabled) {
+      tasks.length = 0;
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      checkAllCompleted();
+      taskList.innerHTML = '';
+    }
+  });
+}
 
-// fetch information from form
-
-// rendering info to html
+// render infor to html
 function renderTaskList() {
-  const taskList = document.getElementById('task-list');
   taskList.innerHTML = '';
 
   tasks.forEach((task, index) => {
@@ -31,8 +43,8 @@ function renderTaskList() {
     checkbox.checked = task.completed;
     checkbox.addEventListener('change', (event) => {
       task.completed = event.target.checked;
-      // eslint-disable-next-line no-use-before-define
       checkAllCompleted();
+      localStorage.setItem('tasks', JSON.stringify(tasks));
     });
     listItem.appendChild(checkbox);
 
@@ -88,8 +100,14 @@ function renderTaskList() {
     taskList.appendChild(listItem);
   });
 }
-// fetch store && to array
-// let individualTask = '';
+window.onload = function () {
+  renderTaskList();
+  checkAllCompleted();
+};
+
+renderTaskList();
+checkAllCompleted();
+
 const myForm = document.getElementById('myform');
 myForm.addEventListener('submit', (event) => {
   event.preventDefault();
@@ -99,7 +117,7 @@ myForm.addEventListener('submit', (event) => {
     const newObj = {
       description: individualTask,
       completed: false,
-      index,
+      index: tasks.length,
     };
     tasks.push(newObj);
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -108,21 +126,6 @@ myForm.addEventListener('submit', (event) => {
     document.getElementById('individualTask').value = '';
 
     renderTaskList();
+    checkAllCompleted();
   }
 });
-
-// clear all array
-// Check if all tasks are completed to activate button
-function checkAllCompleted() {
-  const allCompleted = tasks.every((task) => task.completed);
-  const clearAllButton = document.getElementById('clear-all');
-  clearAllButton.disabled = !allCompleted;
-  clearAllButton.addEventListener('click', () => {
-    if (!clearAllButton.disabled) {
-      tasks.length = 0;
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-      renderTaskList();
-      checkAllCompleted();
-    }
-  });
-}
