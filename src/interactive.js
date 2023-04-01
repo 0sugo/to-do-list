@@ -1,4 +1,4 @@
-import { tasks, renderTaskList } from './addRemove.js';
+const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
 export function updateTaskStatus(task, status) {
   task.completed = status;
@@ -16,7 +16,8 @@ export function checkAllCompleted() {
     completedTasks.forEach((task) => {
       const index = tasks.indexOf(task);
       tasks.splice(index, 1);
-      renderTaskList();
     });
+    checkAllCompleted();
+    window.location.reload();
   });
 }

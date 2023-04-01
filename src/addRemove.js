@@ -2,7 +2,8 @@ import _ from 'lodash';
 import './style.css';
 import { updateTaskStatus, checkAllCompleted } from './interactive.js';
 
-export const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
 const taskList = document.getElementById('task-list');
 
 function component() {
@@ -18,7 +19,7 @@ document.body.appendChild(component());
 // able and disable button
 
 // render infor to html
-export function renderTaskList() {
+function renderTaskList() {
   taskList.innerHTML = '';
   // const task = JSON.parse(localStorage.getItem('tasks')) || [];
 
@@ -84,9 +85,11 @@ export function renderTaskList() {
     checkbox.addEventListener('change', (event) => {
       updateTaskStatus(task, event.target.checked);
       checkAllCompleted();
+      window.location.reload();
       localStorage.setItem('tasks', JSON.stringify(tasks));
       if (event.target.checked) {
         listItem.classList.add('completed');
+        checkAllCompleted();
         // listItem.style.textDecoration = 'line-through';
       } else {
         listItem.classList.remove('completed');
