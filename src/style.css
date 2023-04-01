@@ -83,3 +83,6 @@ form {
   display: flex;
   justify-content: center;
 }
+#savg:hover{
+  cursor: move;
+}

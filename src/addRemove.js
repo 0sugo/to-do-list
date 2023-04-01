@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import './style.css';
 import { updateTaskStatus  }  from './interactive.js';
+import { clearAllButton } from './interactive.js';
 
 export const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 const taskList = document.getElementById('task-list');
@@ -26,9 +27,11 @@ function checkAllCompleted() {
       localStorage.setItem('tasks', JSON.stringify(tasks));
       checkAllCompleted();
       taskList.innerHTML = '';
+      clearAllButton();
     }
   });
 }
+
 
 // render infor to html
 export default function renderTaskList() {
@@ -68,6 +71,14 @@ export default function renderTaskList() {
       }
     });
 
+      // update the indexes of the list items
+  const listItems = document.querySelectorAll('.task');
+  listItems.forEach((listItem, newIndex) => {
+    // retrieve the index from the list item's id attribute
+    const taskIndex = parseInt(listItem.id.split('-')[1]);
+    listItem.dataset.index = taskIndex;
+  });
+
 
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
@@ -76,6 +87,11 @@ export default function renderTaskList() {
       updateTaskStatus(task, event.target.checked);
       checkAllCompleted();
       localStorage.setItem('tasks', JSON.stringify(tasks));
+      if (event.target.checked) {
+        listItem.classList.add('completed');
+      } else {
+        listItem.classList.remove('completed');
+      }
     });
     listItem.appendChild(checkbox);
 
@@ -103,6 +119,9 @@ export default function renderTaskList() {
         description.style.display = 'none';
         editInput.style.display = 'inline-block';
         editInput.focus();
+        listItem.style.backgroundColor='#326789';
+        svg.style.display = 'none';
+
       }
     });
 
@@ -115,6 +134,8 @@ export default function renderTaskList() {
       description.style.display = 'inline-block';
       editInput.style.display = 'none';
       svgDelete.style.display = 'none';
+      listItem.style.backgroundColor='unset';
+      svg.style.display = 'unset';
       localStorage.setItem('tasks', JSON.stringify(tasks));
     }
   }
@@ -125,6 +146,11 @@ listItem.appendChild(editInput);
 
         // create a new SVG element
         const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.id = 'savg';
+        svg.setAttribute("style", "cursor: default;"); // set default cursor
+svg.addEventListener("mouseover", () => {
+  svg.style.cursor = "move"; // set move cursor on hover
+});
         svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
         svg.setAttribute("fill", "none");
         svg.setAttribute("viewBox", "0 0 24 24");
