@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import './style.css';
-import { updateTaskStatus, clearAllButton,checkAllCompleted } from './interactive.js';
+import { updateTaskStatus, checkAllCompleted } from './interactive.js';
 
 export const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 const taskList = document.getElementById('task-list');
@@ -14,21 +14,18 @@ function component() {
 }
 
 document.body.appendChild(component());
-// delete completed tasks
-function deleteCompletedTasks() {
-  tasks = tasks.filter((task) => !task.completed);
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-}
 
 // able and disable button
 
 // render infor to html
 export function renderTaskList() {
   taskList.innerHTML = '';
-JSON.parse(localStorage.getItem('tasks')) || [];
+  // const task = JSON.parse(localStorage.getItem('tasks')) || [];
 
   tasks.forEach((task, index) => {
     task.index = index;
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const svgDelete = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const listItem = document.createElement('li');
     listItem.id = 'identifier';
 
@@ -37,7 +34,7 @@ JSON.parse(localStorage.getItem('tasks')) || [];
       const tasks = JSON.parse(localStorage.getItem('tasks'));
 
       tasks.forEach((task, index) => {
-        task.index= index;
+        task.index = index;
       });
       localStorage.setItem('tasks', JSON.stringify(tasks));
     }
@@ -74,9 +71,9 @@ JSON.parse(localStorage.getItem('tasks')) || [];
 
     // update the indexes of the list items
     const listItems = document.querySelectorAll('.task');
-    listItems.forEach((listItem, newIndex) => {
+    listItems.forEach((listItem) => {
     // retrieve the index from the list item's id attribute
-      const taskIndex = parseInt(listItem.id.split('-')[1]);
+      const taskIndex = parseInt(listItem.id.split('-')[1], 10);
       listItem.dataset.index = taskIndex;
       renderTaskList();
     });
@@ -94,8 +91,6 @@ JSON.parse(localStorage.getItem('tasks')) || [];
       } else {
         listItem.classList.remove('completed');
         // listItem.style.textDecoration = 'unset';
-
-        
       }
     });
     listItem.appendChild(checkbox);
@@ -147,7 +142,6 @@ JSON.parse(localStorage.getItem('tasks')) || [];
     listItem.appendChild(editInput);
 
     // create a new SVG element
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.id = 'savg';
     svg.setAttribute('style', 'cursor: default;'); // set default cursor
     svg.addEventListener('mouseover', () => {
@@ -185,7 +179,6 @@ JSON.parse(localStorage.getItem('tasks')) || [];
       editInput.focus();
     });
 
-    const svgDelete = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svgDelete.style.display = 'none';
     svgDelete.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     svgDelete.setAttribute('fill', 'none');
@@ -216,7 +209,7 @@ JSON.parse(localStorage.getItem('tasks')) || [];
     taskList.appendChild(listItem);
   });
 }
-window.onload = function () {
+window.onload = function onload() {
   renderTaskList();
   checkAllCompleted();
 };
