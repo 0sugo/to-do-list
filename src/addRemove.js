@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import './style.css';
-import { updateTaskStatus, clearAllButton } from './interactive.js';
-// import { checkAllCompleted} from './interactive.js';
+import { updateTaskStatus, clearAllButton,checkAllCompleted } from './interactive.js';
 
 export const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 const taskList = document.getElementById('task-list');
@@ -22,22 +21,7 @@ function deleteCompletedTasks() {
 }
 
 // able and disable button
-function checkAllCompleted() {
-  const anyCompleted = tasks.some((task) => task.completed);
-  const clearAllButton = document.getElementById('clear-all');
-  clearAllButton.disabled = !anyCompleted;
-  clearAllButton.addEventListener('click', function deleteCompletedTasks() {
-    const completedTasks = tasks.filter((task) => task.completed);
-    const remainingTasks = tasks.filter((task) => !task.completed);
-    localStorage.setItem('tasks', JSON.stringify(remainingTasks));
-    completedTasks.forEach((task) => {
-      const index = tasks.indexOf(task);
-      tasks.splice(index, 1);
-      renderTaskList();
-    });
-  });
-  
-}
+
 // render infor to html
 export function renderTaskList() {
   taskList.innerHTML = '';
