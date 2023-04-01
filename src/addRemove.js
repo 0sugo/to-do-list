@@ -14,26 +14,33 @@ function component() {
 }
 
 document.body.appendChild(component());
+// delete completed tasks
+function deleteCompletedTasks() {
+  tasks = tasks.filter((task) => !task.completed);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 
 // able and disable button
 function checkAllCompleted() {
-  const allCompleted = tasks.every((task) => task.completed);
+  const anyCompleted = tasks.some((task) => task.completed);
   const clearAllButton = document.getElementById('clear-all');
-  clearAllButton.disabled = !allCompleted;
-  clearAllButton.addEventListener('click', () => {
-    if (!clearAllButton.disabled) {
-      tasks.length = 0;
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-      checkAllCompleted();
-      taskList.innerHTML = '';
-      // clearAllButton();
-    }
+  clearAllButton.disabled = !anyCompleted;
+  clearAllButton.addEventListener('click', function deleteCompletedTasks() {
+    const completedTasks = tasks.filter((task) => task.completed);
+    const remainingTasks = tasks.filter((task) => !task.completed);
+    localStorage.setItem('tasks', JSON.stringify(remainingTasks));
+    completedTasks.forEach((task) => {
+      const index = tasks.indexOf(task);
+      tasks.splice(index, 1);
+      renderTaskList();
+    });
   });
+  
 }
-
 // render infor to html
 export default function renderTaskList() {
   taskList.innerHTML = '';
+// JSON.parse(localStorage.getItem('tasks')) || [];
 
   tasks.forEach((task, index) => {
     // task.index = index;
@@ -198,7 +205,7 @@ export default function renderTaskList() {
     svgDelete.setAttribute('stroke', 'currentColor');
     svgDelete.setAttribute('class', 'w-6 h-6 svgDelete'); // add a new class name "svgDelete"
     svgDelete.setAttribute('width', '18');
-    svg.setAttribute('height', '32');
+    svgDelete.setAttribute('height', '32');
 
     const pathDelete = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     pathDelete.setAttribute('stroke-linecap', 'round');
@@ -213,6 +220,7 @@ export default function renderTaskList() {
         tasks.splice(index, 1);
         renderTaskList();
         localStorage.setItem('tasks', JSON.stringify(tasks));
+        listItem.remove();
       }
     });
 
