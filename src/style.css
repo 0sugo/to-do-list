@@ -43,6 +43,10 @@ input[type="checkbox"] {
   text-decoration: line-through;
 }
 
+.completed2 {
+  text-decoration: unset;
+}
+
 #clear-all {
   text-align: center;
   display: block;
@@ -82,4 +86,8 @@ input[type="checkbox"] {
 form {
   display: flex;
   justify-content: center;
+}
+
+#savg:hover {
+  cursor: move;
 }
