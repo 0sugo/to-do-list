@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import './style.css';
 import { updateTaskStatus, clearAllButton } from './interactive.js';
+// import { checkAllCompleted} from './interactive.js';
 
 export const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 const taskList = document.getElementById('task-list');
@@ -38,12 +39,12 @@ function checkAllCompleted() {
   
 }
 // render infor to html
-export default function renderTaskList() {
+export function renderTaskList() {
   taskList.innerHTML = '';
-// JSON.parse(localStorage.getItem('tasks')) || [];
+JSON.parse(localStorage.getItem('tasks')) || [];
 
   tasks.forEach((task, index) => {
-    // task.index = index;
+    task.index = index;
     const listItem = document.createElement('li');
     listItem.id = 'identifier';
 
@@ -105,8 +106,12 @@ export default function renderTaskList() {
       localStorage.setItem('tasks', JSON.stringify(tasks));
       if (event.target.checked) {
         listItem.classList.add('completed');
+        // listItem.style.textDecoration = 'line-through';
       } else {
         listItem.classList.remove('completed');
+        // listItem.style.textDecoration = 'unset';
+
+        
       }
     });
     listItem.appendChild(checkbox);
@@ -244,7 +249,7 @@ myForm.addEventListener('submit', (event) => {
     const newObj = {
       description: individualTask,
       completed: false,
-      // index: tasks.length,
+      index: tasks.length,
     };
     tasks.push(newObj);
     localStorage.setItem('tasks', JSON.stringify(tasks));

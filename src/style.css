@@ -42,6 +42,9 @@ input[type="checkbox"] {
 .completed {
   text-decoration: line-through;
 }
+.completed2 {
+  text-decoration: unset;
+}
 
 #clear-all {
   text-align: center;
