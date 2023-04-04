@@ -4,6 +4,34 @@ body {
   padding: 0;
 }
 
+.container{
+  position: relative;
+  border: 2px solid #35627e;
+  background-color: #4A8DB7;
+  width: 50%;
+  left: 50%;
+  right: 50%;
+  margin-top: 5%;
+  border-radius: 8px;
+  box-shadow:5px 7px rgb(242, 242, 250);
+  transform: translate(-50%);
+  -webkit-transform: translate(-50%);
+  -moz-transform: translate(-50%);
+  -ms-transform: translate(-50%);
+  -o-transform: translate(-50%);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+
+#header{
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+
+}
+
 h1 {
   font-size: 3rem;
   margin-top: 2rem;
@@ -41,6 +69,8 @@ input[type="checkbox"] {
 
 .completed {
   text-decoration: line-through;
+  color: crimson;
+  font-weight: 600;
 }
 
 .completed2 {
@@ -91,3 +121,53 @@ form {
 #savg:hover {
   cursor: move;
 }
+input{
+  color: black;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0.03em;
+  padding: 10px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+#identifier{
+  background-color:#fff;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+}
+#identifier span{
+font-size: 18px;
+font-weight: 500;
+letter-spacing: 0.04em;
+}
+#clear-all{
+   background-color: #ffffff;
+   border-radius:8px;
+   -webkit-border-radius:8px;
+   -moz-border-radius:8px;
+   -ms-border-radius:8px;
+   -o-border-radius:8px;
+}
+@media screen and (max-width:767px),
+screen and (max-width:767px) {
+  body{
+    background-color: red;
+  }
+  input[type="checkbox"] {
+    margin-right: unset;
+
+  }
+input[type="submit"] {
+   display: none;
+  }
+  input[type="text"] {
+    width: 95%;
+   }
+   
+  }
