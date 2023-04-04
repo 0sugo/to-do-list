@@ -156,9 +156,7 @@ letter-spacing: 0.04em;
 }
 @media screen and (max-width:767px),
 screen and (max-width:767px) {
-  body{
-    background-color: red;
-  }
+
   input[type="checkbox"] {
     margin-right: unset;
 
