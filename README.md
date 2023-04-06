@@ -30,9 +30,6 @@
 
 **To Do List** is an application that shows things I intended to do in a day keeping track with a tick for those I have completed.
 
-
-**Link to online version of To Do List** is in [Live Demo](#live-demo)
-
 ## 🛠 Built With <a name="built-with"></a>
 
 ### Tech Stack <a name="tech-stack"></a>
@@ -77,7 +74,7 @@
 ## 🚀 Live Demo <a name="live-demo"></a>
 
 
-- [Live Demo Link](Coming soon .....)
+- [Live Demo Link](https://0sugo.github.io/to-do-list/dist/)
 
 
 <!-- GETTING STARTED -->
