@@ -89,10 +89,11 @@ To get a local copy up and running, follow these steps.
 In order to run this project you need:
 
 - Modern chrome Browser
+- visual studio code
 
 ### Setup
 
-- Clone this repository to your desired folder with the following commend
+- Clone this repository to your desired folder with the following commnd
 ```
 git clone https://github.com/0sugo/to-do-list.git
 ```
@@ -100,29 +101,26 @@ git clone https://github.com/0sugo/to-do-list.git
 
 ### Install
 
-- Type cd 
+- run ```npm i``` to install all dependencies
+- run ```npm run build``` to bundle the project with webpack, and
+
 ```
-To-Do-List
-```
-- open index.html file in the browser
 
 ### Usage
 
 - To run the project, execute the following command:
-  - Type cd ``` To-Do-List ```
-  - open index.html file in the browser
+  -- run ```npm start``` to launch the application
 
 ### Run tests
 
 - To run tests, run the following command:
-  - npm bulid run
+  - npm run tests
 
 ### Deployment
 
 - You can deploy this project using:
   - Type cd ``` To-Do-List ```
   - open index.html file in the browser
-
 
 <!-- AUTHORS -->
 
