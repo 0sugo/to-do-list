@@ -104,7 +104,6 @@ git clone https://github.com/0sugo/to-do-list.git
 - run ```npm i``` to install all dependencies
 - run ```npm run build``` to bundle the project with webpack, and
 
-```
 
 ### Usage
 
@@ -114,7 +113,7 @@ git clone https://github.com/0sugo/to-do-list.git
 ### Run tests
 
 - To run tests, run the following command:
-  - npm run tests
+  - ```npm run tests```
 
 ### Deployment
 
